@@ -1,7 +1,51 @@
 <?php
 $t=array(
 "de"=>array(
-
+	'TinyCMS Installer'=>'TinyCMS Installer',
+	'Please fill in the url multi-level separator'=>'Bitte URL multi-level Trennzeichen eingeben',
+	'Please fill in the site root'=>'Bitte root Verzeichnis eingeben',
+	'Please select at least one theme'=>'Bitte mindestens ein Theme auswählen',
+	'There seems to already be an installation atempt here, please delete all folders and files in the current directory except this file'=>'Ein Installationsversuch wurde bereits durchgeführt, bitte löschen Sie alle Dateien aus diesem Ordner, ausser dieser Datei',
+	'Let\'s check if your server can support TinyCMS'=>'Überprüfe ob TinyCMS auf Ihrem Server unterstützt wird',
+	'Fill in your TinyCMS settings'=>'TinyCMS Einstellungen eingeben',
+	'Installing files'=>'Dateien werden installiert',
+	'Let\'s finish this'=>'Fertigstellen',
+	'<p>STEP 1</p>Requirements Check'=>'<p>SCHRITT 1</p>Überprüfe Mindestvoraussetzungen',
+	'<p>STEP 2</p>Your Settings'=>'<p>SCHRITT 2</p>Ihre Einstellungen',
+	'<p>STEP 3</p>Installing ...'=>'<p>SCHRITT 3</p>Installation...',
+	'<p>STEP 4</p>Self Destruct'=>'<p>SCHRITT 4</p>Selbstzerstörung',
+	'SUCCESS'=>'ERFOLG',
+	'FAILED'=>'FEHLER',
+	'Checking create folder permissions'=>'Überprüfe Rechte für Ordnererstellung',
+	'Checking create file permissions'=>'Überprüfe Rechte für Dateierstellung',
+	'Checking read file permissions'=>'Überprüfe Dateileserechte',
+	'Checking delete file permissions'=>'Überprüfe Dateilöschrechte',
+	'Checking delete folder permissions'=>'Überprüfe Ordnerlöschrechte',
+	'Checking if mod_rewrite is enabled'=>'Überprüfe mod_rewrite Status',
+	'Checking if server has unzip enabled'=>'Überprüfe Server unzip Funktion',
+	'Checking TinyCMS version'=>'Überprüfe TinyCMS Version',
+	'Version'=>'Version',
+	'Next step'=>'Nächster Schritt',
+	'Error(s) detected, the TinyCMS installer cannot continue'=>'Fehler augetreten! Der Installationsvorgang kann nicht ausgeführt werden',
+	'Your urls multi-level separator'=>'Ihr URL multi-level Trennzeichen',
+	'Example: http://www.example.com/about<strong>/</strong>company.html - cannot be blank'=>'Beispiel: http://www.example.com/about<strong>/</strong>company.html - darf nicht leer sein',
+	'Your urls ending'=>'Ihre URL Endung',
+	'Example: http://www.example.com/about/company<strong>.html</strong> - can be blank'=>'Beispiel: http://www.example.com/about/company<strong>.html</strong> - darf leer sein',
+	'Your site root'=>'Ihr root Verzeichnis',
+	'Example: <strong>/</strong> or <strong>/testing/</strong> - cannot be blank'=>'Beispiel: <strong>/</strong> or <strong>/testing/</strong> - darf nicht leer sein',
+	'Language to install'=>'Sprache',
+	'Theme(s) to install'=>'Theme auswählen',
+	'by'=>'erstellt von',
+	'Plugin(s) to install'=>'Zu installierende plugins',
+	'Your admin password'=>'Ihr Admin Passwort',
+	'Leaving this empty will generate a password for you'=>'Falls dieses Feld nicht ausgefüllt wird, erstellt das System ein Passwort für Sie',
+	'Install TinyCMS'=>'TinyCMS installieren',
+	'Getting files'=>'Dateien bereitstellen',
+	'Unpacking files'=>'Dateien entpacken',
+	'Removing unnecessary files'=>'Nicht mehr benötigte Dateien werden gelöscht',
+	'Generating password, <strong>please copy this password to be able to log in your admin zone</strong>'=>'passwort wird generiert, <strong>bitte kopieren Sie dieses Passwort für den späteren Zugang im Adminbereich</strong>',
+	'Writing config file'=>'Konfigurationsdatei wird erstellt',
+	'Delete this file and go to my new TinyCMS'=>'Diese Datei löschen und zur neuen Seite wechseln',
 ),
 "ro"=>array(
 'TinyCMS Installer'=>'Instalatorul TinyCMS',
@@ -102,7 +146,7 @@ if ($step==2) {
 <meta charset="utf-8">
 <title><?php echo _e('TinyCMS Installer'); ?></title>
 <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans+SC:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-<style>body { padding:0px; margin:0px; font-family:'Alegreya Sans SC', sans-serif; font-size:14px; background:#ebebeb; }a{color:#f00;text-decoration:none; }#wrapper{width:988px;margin:10px auto; border:solid 1px #ccc; background:#fff;border-radius:5px;box-shadow:0px 0px 3px 3px #DADADA;}#header {padding:10px;border-bottom:solid 1px #ccc; font-size:32px;}#main{padding:10px;font-size:16px;}#copy{text-align:center; }#header div { font-size:20px; }#steps{ text-align:center; padding:10px 0 10px 0; margin:0 0 10px 0; border-bottom:solid 1px #ccc;}p{margin:0 0 4px 0; padding:0;border-bottom:solid 1px #ccc;}#steps div {display:inline-block; padding:8px 10px 10px 10px; margin:10px; width:200px;border:solid 1px #ccc;border-radius:5px;box-shadow:0px 0px 3px 3px #DADADA;background:#ebebeb; color:#CCC; font-size:16px;}#steps div.a { box-shadow:0px 0px 3px 3px #999; color:#000; }#steps div p { font-size:26px; }p.r span { float:right; font-weight:bold; } p.r .suc { color:#090; }p.r .fai { color:#900; }input, select { border:solid 1px #999; border-radius:4px; padding:4px 8px; font-family:Arial, Helvetica, sans-serif;  font-size:16px;  box-shadow:0px 0px 3px #aaa inset;}input[type="submit"] { cursor:pointer;background:#666; color:#fff;font-family:'Alegreya Sans SC', sans-serif; }input[type="button"]::-moz-focus-inner,input[type="submit"]::-moz-focus-inner{padding:0;border:0;}#fsb { float:right; }small { font-family:Arial, Helvetica, sans-serif; font-size:14px; margin:0 0 0 20px; }small strong { color:#f00; }div.r { border-bottom:solid 1px #ccc; padding:4px 0 4px 0; } div.r label, div.r .rinput { display:inline-block; vertical-align:middle; }  div.r label { width:320px;}.set_theme { display:inline-block; vertical-align:top;width:120px; background:#fff; padding:8px; border: 1px solid #999;border-radius:5px; margin:0 8px 8px 0; font-size:14px;}div.r .set_theme label { display:static; vertical-align:top; width:auto;  height:auto; line-height:inherit; padding:0;}</style>
+<style>body { padding:0px; margin:0px; font-family:'Alegreya Sans SC', sans-serif; font-size:14px; background:#ebebeb; }a{color:#f00;text-decoration:none; }#wrapper{width:988px;margin:10px auto; border:solid 1px #ccc; background:#fff;border-radius:5px;box-shadow:0px 0px 3px 3px #DADADA;}#header {padding:10px;border-bottom:solid 1px #ccc; font-size:32px;}#main{padding:10px;font-size:16px;}#copy{text-align:center; }#header div { font-size:20px; }#steps{ text-align:center; padding:10px 0 10px 0; margin:0 0 10px 0; border-bottom:solid 1px #ccc;}p{margin:0 0 4px 0; padding:0;border-bottom:solid 1px #ccc;}#steps div {display:inline-block; padding:8px 10px 10px 10px; margin:10px; width:200px;border:solid 1px #ccc;border-radius:5px;box-shadow:0px 0px 3px 3px #DADADA;background:#ebebeb; color:#CCC; font-size:16px; min-height:74px; vertical-align:top;}#steps div.a { box-shadow:0px 0px 3px 3px #999; color:#000; }#steps div p { font-size:26px; }p.r span { float:right; font-weight:bold; } p.r .suc { color:#090; }p.r .fai { color:#900; }input, select { border:solid 1px #999; border-radius:4px; padding:4px 8px; font-family:Arial, Helvetica, sans-serif;  font-size:16px;  box-shadow:0px 0px 3px #aaa inset;}input[type="submit"] { cursor:pointer;background:#666; color:#fff;font-family:'Alegreya Sans SC', sans-serif; }input[type="button"]::-moz-focus-inner,input[type="submit"]::-moz-focus-inner{padding:0;border:0;}#fsb { float:right; }small { font-family:Arial, Helvetica, sans-serif; font-size:14px; margin:0 0 0 20px; }small strong { color:#f00; }div.r { border-bottom:solid 1px #ccc; padding:4px 0 4px 0; } div.r label, div.r .rinput { display:inline-block; vertical-align:middle; }  div.r label { width:320px;}.set_theme { display:inline-block; vertical-align:top;width:120px; background:#fff; padding:8px; border: 1px solid #999;border-radius:5px; margin:0 8px 8px 0; font-size:14px;}div.r .set_theme label { display:static; vertical-align:top; width:auto;  height:auto; line-height:inherit; padding:0;}</style>
 </head>
 
 <body>
@@ -159,13 +203,13 @@ if ($step==2) {
     <?php } ?>
     <?php if ($step==3) { $oktostep4=true; ?>
     	<div id="step3">
-        <p class="r"><?php echo _e("Getting files");?>: <?php $fgczip=file_get_contents("http://www.tinycms.ro/get/custom?lang=".$p2['lang'].'&themes='.implode(",",$p2['siteTheme']).'&plugins='.(isset($p2['sitePlugins'])?implode(",",$p2['sitePlugins']):'').'sr='.$p2['sr'].'&from='.$_SERVER['SCRIPT_FILENAME']); if ($fgczip) file_put_contents("_deleteF1les.zip",$fgczip);  echo ($fgczip?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fgczip) $oktostep4=false; flush(); ?></p>
+        <p class="r"><?php echo _e("Getting files");?>: <?php $fgczip=@file_get_contents("http://www.tinycms.ro/get/custom?lang=".$p2['lang'].'&themes='.implode(",",$p2['siteTheme']).'&plugins='.(isset($p2['sitePlugins'])?implode(",",$p2['sitePlugins']):'').'sr='.$p2['sr'].'&from='.$_SERVER['SCRIPT_FILENAME']); if ($fgczip) file_put_contents("_deleteF1les.zip",$fgczip);  echo ($fgczip?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fgczip) $oktostep4=false; flush(); ?></p>
         <p class="r"><?php echo _e("Unpacking files");?>: <?php $zip = new ZipArchive; $res = $zip->open('_deleteF1les.zip'); if ($res === TRUE) { $zip->extractTo(getcwd()); $zip->close(); echo '<span class="suc">'._e('SUCCESS').'</span>'; } else { echo '<span class="fai">'._e('FAILED').'</span>';  $oktostep4=false;  flush();} ?></p>
-        <p class="r"><?php echo _e("Removing unnecessary files");?>: <?php $unli =unlink('_deleteF1les.zip'); echo ($unli?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$unli) $oktostep4=false; flush(); ?></p>
+        <p class="r"><?php echo _e("Removing unnecessary files");?>: <?php $unli =@unlink('_deleteF1les.zip'); echo ($unli?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$unli) $oktostep4=false; flush(); ?></p>
         <?php if (!isset($p2['pass'])||!$p2['pass']) { ?>
         <p class="r"><?php echo _e("Generating password, <strong>please copy this password to be able to log in your admin zone</strong>");?>: <?php $p2['pass']=substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'),0,6); echo '<span class="suc" style="font-family:arial;">'.$p2['pass'].'</span>'; flush(); ?></p>
         <?php } ?>
-        <p class="r"><?php echo _e("Writing config file");?>: <?php $fpcf=file_put_contents("a55ets/s3tt1nGs.php",'<?php'."\n".'/*private constants*/'."\n".'define("DATA_FOLDER","__d4ta/");'."\n".'define("ADMIN","4dm1n");'."\n".'define("INSTALLED",true);'."\n".'/*public constants*/'."\n".'define("URL_SEPARATOR","'.$p2['urlSep'].'");'."\n".'define("URL_ENDING","'.$p2['urlEnd'].'");'."\n".'define("SR","'.$p2['sr'].'");'."\n".'/*DO NOT PUT this to true on a live site, it will reveal important information to your visitors*/'."\n".'define("DEBUG",false);'."\n".''."\n".'/*editable constants*/'."\n".''."\n".'/*this is a MD5 Hash of the actual password, use online tools like http://www.md5hashgenerator.com to find it out.*/'."\n".'define("PASS","'.md5($p2['pass']).'");'."\n".'define("LANG","'.$p2['lang'].'");'."\n".'define("THEME_FOLDER","'.$p2['siteTheme'][0].'");'."\n".''."\n".'$plugins = array('.(isset($p2['sitePlugins'])?'"'.implode('","',$p2['sitePlugins']).'"':'').');'."\n".'require "a55ets/tcClas5.php"; '."\n".'?>'); echo ($fpcf?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fpcf) $oktostep4=false; flush();?></p>
+        <p class="r"><?php echo _e("Writing config file");?>: <?php $fpcf=@file_put_contents("a55ets/s3tt1nGs.php",'<?php'."\n".'/*private constants*/'."\n".'define("DATA_FOLDER","__d4ta/");'."\n".'define("ADMIN","4dm1n");'."\n".'define("INSTALLED",true);'."\n".'/*public constants*/'."\n".'define("URL_SEPARATOR","'.$p2['urlSep'].'");'."\n".'define("URL_ENDING","'.$p2['urlEnd'].'");'."\n".'define("SR","'.$p2['sr'].'");'."\n".'/*DO NOT PUT this to true on a live site, it will reveal important information to your visitors*/'."\n".'define("DEBUG",false);'."\n".''."\n".'/*editable constants*/'."\n".''."\n".'/*this is a MD5 Hash of the actual password, use online tools like http://www.md5hashgenerator.com to find it out.*/'."\n".'define("PASS","'.md5($p2['pass']).'");'."\n".'define("LANG","'.$p2['lang'].'");'."\n".'define("THEME_FOLDER","'.$p2['siteTheme'][0].'");'."\n".''."\n".'$plugins = array('.(isset($p2['sitePlugins'])?'"'.implode('","',$p2['sitePlugins']).'"':'').');'."\n".'require "a55ets/tcClas5.php"; '."\n".'?>'); echo ($fpcf?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fpcf) $oktostep4=false; flush();?></p>
         <?php
 			if ($oktostep4) echo '<form action="" method="post"><input type="submit" name="tostep4" value="'._e("Next step").'" id="fsb"/></form><br><br>';
 			else echo '<p class="r">&nbsp;<span class="fai">'._e('Error(s) detected, the TinyCMS installer cannot continue').'</span></p>';
@@ -179,6 +223,6 @@ if ($step==2) {
     <?php } ?>    
     </div>
 </div>
-<div id="copy">TinyCMS &copy; <?php echo date("Y"); ?><br><a href="http://www.tinycms.eu" target="_blank">www.TinyCMS.eu</a> - <a href="http://www.tinycms.eu" target="_blank">www.TinyCMS.ro</a></div>
+<div id="copy">TinyCMS &copy; <?php echo date("Y"); ?><br><a href="http://www.tinycms.eu" target="_blank">www.TinyCMS.eu</a> - <a href="http://www.tinycms.ro" target="_blank">www.TinyCMS.ro</a></div>
 </body>
 </html>
