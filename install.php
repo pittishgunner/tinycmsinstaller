@@ -46,6 +46,7 @@ $t=array(
 	'Generating password, <strong>please copy this password to be able to log in your admin zone</strong>'=>'passwort wird generiert, <strong>bitte kopieren Sie dieses Passwort für den späteren Zugang im Adminbereich</strong>',
 	'Writing config file'=>'Konfigurationsdatei wird erstellt',
 	'Delete this file and go to my new TinyCMS'=>'Diese Datei löschen und zur neuen Seite wechseln',
+	'Sample content'=>'Beispielinhalt',
 ),
 "ro"=>array(
 'TinyCMS Installer'=>'Instalatorul TinyCMS',
@@ -93,6 +94,7 @@ $t=array(
 'Generating password, <strong>please copy this password to be able to log in your admin zone</strong>'=>'Generez parola, <strong>copiați această parolă pentru a vă putea loga in zona de administrare</strong>',
 'Writing config file'=>'Scriu fișierul de configurare',
 'Delete this file and go to my new TinyCMS'=>'Șterge acest fișier și mergi la noul meu site',
+'Sample content'=>'Mostră conținut'
 ),
 );
 $ilang=isset($_GET['lang'])?$_GET['lang']:'en';
@@ -132,7 +134,7 @@ if (isset($_POST['step2sent'])) {
 	}
 }
 if ($step==2) {	
-	if (!isset($p2)) $p2=array("urlSep"=>"/","urlEnd"=>".html","sr"=>$sr,"lang"=>$ilang,"siteTheme"=>array("mad"),'pass'=>'',"sitePlugins"=>array("forms","sliders"));
+	if (!isset($p2)) $p2=array("urlSep"=>"/","urlEnd"=>".html","sr"=>$sr,"lang"=>$ilang,"siteTheme"=>array("mad"),'sample'=>'yes','pass'=>'',"sitePlugins"=>array("forms","sliders"));
 	$langs=json_decode(@file_get_contents("http://www.tinycms.ro/get/languages"));
 	$ls='<option value="en"'.($p2['lang']=="en"?' selected="selected"':'').'>English</option>';
 	if ($langs) foreach ($langs as $k=>$v) if ($k<>'en') $ls.='<option value="'.$k.'"'.($p2['lang']==$k?' selected="selected"':'').'>'.$v.'</option>';
@@ -186,15 +188,18 @@ if ($step==2) {
             <div class="r"><label for="lang"><?php echo _e('Language to install');?>:</label> <div class="rinput"><select name="lang" id="lang"><?php echo $ls; ?></select></div></div>
             <div class="r"><label for="siteTheme"><?php echo _e('Theme(s) to install');?></label> <div class="rinput">
             <?php if (!empty($themes)) foreach ($themes as $theme) {
-				echo '<div class="set_theme"><label for="siteTheme_'.$theme[0].'">'.(isset($theme[6])?'<img src="data:image/jpg;base64,'.$theme[6].'"/>':'').'</label> <input type="checkbox" name="siteTheme[]" id="siteTheme_'.$theme[0].'" value="'.$theme[0].'"'.(isset($p2['siteTheme'])&&in_array($theme[0],$p2['siteTheme'])?' checked="checked"':'').' /> '.(isset($theme[4])?'<a href="'.$theme[4].'" target="_blank">':'').(isset($theme[1])?$theme[1]:'').(isset($theme[4])?'</a>':'').'<br />'._e('by').': '.(isset($theme[3])?'<a href="mailto:'.$theme[3].'">':'').(isset($theme[2])?$theme[2]:'').(isset($theme[3])?'</a>':'').'</div>';			
+				echo '<div class="set_theme"><label for="siteTheme_'.$theme[0].'">'.(isset($theme[6])?'<img title="'.(isset($theme[7])?$theme[7]:'').'" src="data:image/jpg;base64,'.$theme[6].'"/>':'').'</label> <input type="checkbox" name="siteTheme[]" id="siteTheme_'.$theme[0].'" value="'.$theme[0].'"'.(isset($p2['siteTheme'])&&in_array($theme[0],$p2['siteTheme'])?' checked="checked"':'').' /> '.(isset($theme[4])?'<a href="'.$theme[4].'" target="_blank">':'').(isset($theme[1])?$theme[1]:'').(isset($theme[4])?'</a>':'').'<br />'._e('by').': '.(isset($theme[3])?'<a href="mailto:'.$theme[3].'">':'').(isset($theme[2])?$theme[2]:'').(isset($theme[3])?'</a>':'').'</div>';			
 			}			
 			?>
             </div></div>
             <div class="r"><label for="sitePlugins"><?php echo _e('Plugin(s) to install');?></label> <div class="rinput">
             <?php if (!empty($plugins)) foreach ($plugins as $plugin) {
-				echo '<div class="set_theme"><label for="plugins_'.$plugin[0].'">'.$plugin[1].'</label> <input type="checkbox" name="sitePlugins[]" id="plugins_'.$plugin[0].'" value="'.$plugin[0].'"'.(isset($p2['sitePlugins'])&&in_array($plugin[0],$p2['sitePlugins'])?' checked="checked"':'').' /> '.(isset($plugin[4])?'<a href="'.$plugin[4].'" target="_blank">':'').(isset($plugin[1])?$plugin[1]:'').(isset($plugin[4])?'</a>':'').'<br />'._e('by').': '.(isset($plugin[3])?'<a href="mailto:'.$plugin[3].'">':'').(isset($plugin[2])?$plugin[2]:'').(isset($plugin[3])?'</a>':'').'</div>';			
+				echo '<div class="set_theme"><label for="plugins_'.$plugin[0].'">'.(isset($plugin[6])?'<img title="'.(isset($plugin[7])?$plugin[7]:'').'" src="data:image/jpg;base64,'.$plugin[6].'"/>':'').'</label> <input type="checkbox" name="sitePlugins[]" id="plugins_'.$plugin[0].'" value="'.$plugin[0].'"'.(isset($p2['sitePlugins'])&&in_array($plugin[0],$p2['sitePlugins'])?' checked="checked"':'').' /> '.(isset($plugin[4])?'<a href="'.$plugin[4].'" target="_blank">':'').(isset($plugin[1])?$plugin[1]:'').(isset($plugin[4])?'</a>':'').'<br />'._e('by').': '.(isset($plugin[3])?'<a href="mailto:'.$plugin[3].'">':'').(isset($plugin[2])?$plugin[2]:'').(isset($plugin[3])?'</a>':'').'</div>';			
 			}			
 			?>
+            </div></div>
+            <div class="r"><label for="sample"><?php echo _e('Sample content');?></label> <div class="rinput">
+            <input type="checkbox" name="sample" id="sample" value="yes"<?php echo (isset($p2['sample'])&&$p2['sample']=="yes"?' checked="checked"':''); ?> />
             </div></div>
             <div class="r"><label for="pass"><?php echo _e('Your admin password');?>:</label> <div class="rinput"><input type="password" name="pass" id="pass" value="<?php echo $p2['pass'] ?>" style="width:80px;"/></div> <small><?php echo _e('Leaving this empty will generate a password for you');?></small></div>
             <div class="r"> <div class="rinput"><label for="tostep3"></label> <input type="submit" name="tostep3" value="<?php echo _e('Install TinyCMS');?>"/></div></div>            
@@ -203,7 +208,7 @@ if ($step==2) {
     <?php } ?>
     <?php if ($step==3) { $oktostep4=true; ?>
     	<div id="step3">
-        <p class="r"><?php echo _e("Getting files");?>: <?php $fgczip=@file_get_contents("http://www.tinycms.ro/get/custom?lang=".$p2['lang'].'&themes='.implode(",",$p2['siteTheme']).'&plugins='.(isset($p2['sitePlugins'])?implode(",",$p2['sitePlugins']):'').'sr='.$p2['sr'].'&from='.$_SERVER['SCRIPT_FILENAME']); if ($fgczip) file_put_contents("_deleteF1les.zip",$fgczip);  echo ($fgczip?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fgczip) $oktostep4=false; flush(); ?></p>
+        <p class="r"><?php echo _e("Getting files");?>: <?php $fgczip=@file_get_contents("http://www.tinycms.ro/get/custom?lang=".$p2['lang'].'&themes='.implode(",",$p2['siteTheme']).'&plugins='.(isset($p2['sitePlugins'])?implode(",",$p2['sitePlugins']):'').'sr='.$p2['sr'].'&sample='.$p2['sample'].'&from='.$_SERVER['SCRIPT_FILENAME']); if ($fgczip) file_put_contents("_deleteF1les.zip",$fgczip);  echo ($fgczip?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fgczip) $oktostep4=false; flush(); ?></p>
         <p class="r"><?php echo _e("Unpacking files");?>: <?php $zip = new ZipArchive; $res = $zip->open('_deleteF1les.zip'); if ($res === TRUE) { $zip->extractTo(getcwd()); $zip->close(); echo '<span class="suc">'._e('SUCCESS').'</span>'; } else { echo '<span class="fai">'._e('FAILED').'</span>';  $oktostep4=false;  flush();} ?></p>
         <p class="r"><?php echo _e("Removing unnecessary files");?>: <?php $unli =@unlink('_deleteF1les.zip'); echo ($unli?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$unli) $oktostep4=false; flush(); ?></p>
         <?php if (!isset($p2['pass'])||!$p2['pass']) { ?>
