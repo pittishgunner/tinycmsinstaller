@@ -22,6 +22,7 @@ $t=array(
 	'Checking delete file permissions'=>'Überprüfe Dateilöschrechte',
 	'Checking delete folder permissions'=>'Überprüfe Ordnerlöschrechte',
 	'Checking if mod_rewrite is enabled'=>'Überprüfe mod_rewrite Status',
+	'Checking if magic quotes is off'=>'Überprüfe magic quotes Status',	
 	'Checking if server has unzip enabled'=>'Überprüfe Server unzip Funktion',
 	'Checking TinyCMS version'=>'Überprüfe TinyCMS Version',
 	'Version'=>'Version',
@@ -70,6 +71,7 @@ $t=array(
 'Checking delete file permissions'=>'Verific permisiuni de ștergere fișiere',
 'Checking delete folder permissions'=>'Verific permisiuni de ștergere directoare',
 'Checking if mod_rewrite is enabled'=>'Verific daca mod_rewrite este pornit',
+'Checking if magic quotes is off'=>'Verific dacă magic quotes este oprit',
 'Checking if server has unzip enabled'=>'Verific daca serverul poate despacheta fișiere',
 'Checking TinyCMS version'=>'Verific versiunea TinyCMS',
 'Version'=>'Versiune',
@@ -137,9 +139,9 @@ if ($step==2) {
 	if (!isset($p2)) $p2=array("urlSep"=>"/","urlEnd"=>".html","sr"=>$sr,"lang"=>$ilang,"siteTheme"=>array("mad"),'sample'=>'yes','pass'=>'',"sitePlugins"=>array("forms","sliders"));
 	$langs=json_decode(@file_get_contents("http://www.tinycms.ro/get/languages"));
 	$ls='<option value="en"'.($p2['lang']=="en"?' selected="selected"':'').'>English</option>';
-	if ($langs) foreach ($langs as $k=>$v) if ($k<>'en') $ls.='<option value="'.$k.'"'.($p2['lang']==$k?' selected="selected"':'').'>'.$v.'</option>';
-	$themes=json_decode(file_get_contents("http://www.tinycms.ro/get/themes"));
-	$plugins=json_decode(file_get_contents("http://www.tinycms.ro/get/plugins"));
+	if ($langs) foreach ($langs as $k=>$v) if ($k<>'en') $ls.='<option value="'.$v[0].'"'.($p2['lang']==$v[0]?' selected="selected"':'').'>'.$v[1].'</option>';
+	$themes=json_decode(@file_get_contents("http://www.tinycms.ro/get/themes"));
+	$plugins=json_decode(@file_get_contents("http://www.tinycms.ro/get/plugins"));
 }
 ?>
 <!DOCTYPE HTML>
@@ -168,8 +170,9 @@ if ($step==2) {
             <p class="r"><?php echo _e('Checking delete folder permissions'); $rmdir=@rmdir("_testFolder"); echo ($rmdir?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$rmdir) $oktostep2=false; ?></p>
             <?php if (!isset($_GET['skipmod_rewrite'])) { ?>
             <p class="r"><?php echo _e('Checking if mod_rewrite is enabled'); 
-			if (function_exists("apache_get_modulesx")) $mre=in_array('mod_rewrite', apache_get_modules()); else {ob_start();phpinfo(INFO_MODULES);$contents = ob_get_contents();ob_end_clean();$mre=strpos($contents, 'mod_rewrite');} echo ($mre?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$mre) $oktostep2=false; ?></p>
+			if (function_exists("apache_get_modules")) $mre=in_array('mod_rewrite', apache_get_modules()); else {ob_start();phpinfo(INFO_MODULES);$contents = ob_get_contents();ob_end_clean();$mre=strpos($contents, 'mod_rewrite');} echo ($mre?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$mre) $oktostep2=false; ?></p>
             <?php } ?>
+            <p class="r"><?php echo _e('Checking if magic quotes is off'); $moff=get_magic_quotes_gpc(); echo ($moff<>1?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if ($moff==1) $oktostep2=false; ?></p>
             <p class="r"><?php echo _e('Checking if server has unzip enabled'); $unz=class_exists("ZipArchive");  echo ($unz?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$unz) $oktostep2=false; ?></p>
             <p class="r"><?php echo _e('Checking TinyCMS version'); $tcmver=@file_get_contents("http://www.tinycms.ro/get/version");  echo ($tcmver?'<span class="suc">'._e('Version').': '.$tcmver.'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$tcmver) $oktostep2=false; ?></p>
             <?php
@@ -208,13 +211,15 @@ if ($step==2) {
     <?php } ?>
     <?php if ($step==3) { $oktostep4=true; ?>
     	<div id="step3">
-        <p class="r"><?php echo _e("Getting files");?>: <?php $fgczip=@file_get_contents("http://www.tinycms.ro/get/custom?lang=".$p2['lang'].'&themes='.implode(",",$p2['siteTheme']).'&plugins='.(isset($p2['sitePlugins'])?implode(",",$p2['sitePlugins']):'').'sr='.$p2['sr'].'&sample='.$p2['sample'].'&from='.$_SERVER['SCRIPT_FILENAME']); if ($fgczip) file_put_contents("_deleteF1les.zip",$fgczip);  echo ($fgczip?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fgczip) $oktostep4=false; flush(); ?></p>
+        <p class="r"><?php echo _e("Getting files");?>: <?php 
+		$_th=''; foreach ($p2['siteTheme'] as $_k=>$_v) $_th.='&themes%5B%5D='.$_v;$_ph=''; foreach ($p2['sitePlugins'] as $_kk=>$_vv) $_ph.='&plugins%5B%5D='.$_vv;		
+		$fgczip=@file_get_contents("http://www.tinycms.ro/get/custom?core=yes&lang=".$p2['lang'].$_th.$_ph.'&sr='.$p2['sr'].'&sample='.$p2['sample'].'&from='.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); if ($fgczip) file_put_contents("_deleteF1les.zip",$fgczip);  echo ($fgczip?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fgczip) $oktostep4=false; flush(); ?></p>
         <p class="r"><?php echo _e("Unpacking files");?>: <?php $zip = new ZipArchive; $res = $zip->open('_deleteF1les.zip'); if ($res === TRUE) { $zip->extractTo(getcwd()); $zip->close(); echo '<span class="suc">'._e('SUCCESS').'</span>'; } else { echo '<span class="fai">'._e('FAILED').'</span>';  $oktostep4=false;  flush();} ?></p>
         <p class="r"><?php echo _e("Removing unnecessary files");?>: <?php $unli =@unlink('_deleteF1les.zip'); echo ($unli?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$unli) $oktostep4=false; flush(); ?></p>
         <?php if (!isset($p2['pass'])||!$p2['pass']) { ?>
         <p class="r"><?php echo _e("Generating password, <strong>please copy this password to be able to log in your admin zone</strong>");?>: <?php $p2['pass']=substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'),0,6); echo '<span class="suc" style="font-family:arial;">'.$p2['pass'].'</span>'; flush(); ?></p>
         <?php } ?>
-        <p class="r"><?php echo _e("Writing config file");?>: <?php $fpcf=@file_put_contents("a55ets/s3tt1nGs.php",'<?php'."\n".'/*private constants*/'."\n".'define("DATA_FOLDER","__d4ta/");'."\n".'define("ADMIN","4dm1n");'."\n".'define("INSTALLED",true);'."\n".'/*public constants*/'."\n".'define("URL_SEPARATOR","'.$p2['urlSep'].'");'."\n".'define("URL_ENDING","'.$p2['urlEnd'].'");'."\n".'define("SR","'.$p2['sr'].'");'."\n".'/*DO NOT PUT this to true on a live site, it will reveal important information to your visitors*/'."\n".'define("DEBUG",false);'."\n".''."\n".'/*editable constants*/'."\n".''."\n".'/*this is a MD5 Hash of the actual password, use online tools like http://www.md5hashgenerator.com to find it out.*/'."\n".'define("PASS","'.md5($p2['pass']).'");'."\n".'define("LANG","'.$p2['lang'].'");'."\n".'define("THEME_FOLDER","'.$p2['siteTheme'][0].'");'."\n".''."\n".'$plugins = array('.(isset($p2['sitePlugins'])?'"'.implode('","',$p2['sitePlugins']).'"':'').');'."\n".'require "a55ets/tcClas5.php"; '."\n".'?>'); echo ($fpcf?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fpcf) $oktostep4=false; flush();?></p>
+        <p class="r"><?php echo _e("Writing config file");?>: <?php $fpcf=@file_put_contents("a55ets/s3tt1nGs.php",'<?php'."\n".'/*private constants*/'."\n".'define("DATA_FOLDER","__d4ta/");'."\n".'define("ADMIN","4dm1n");'."\n".'define("INSTALLED",true);'."\n".'/*public constants*/'."\n".'define("URL_SEPARATOR","'.$p2['urlSep'].'");'."\n".'define("URL_ENDING","'.$p2['urlEnd'].'");'."\n".'define("SR","'.$p2['sr'].'");'."\n".'/*DO NOT PUT this to true on a live site, it will reveal important information to your visitors*/'."\n".'define("DEBUG",false);'."\n".''."\n".'/*editable constants*/'."\n".''."\n".'/*this is a MD5 Hash of the actual password, use online tools like http://www.md5hashgenerator.com to find it out.*/'."\n".'define("PASS","'.md5($p2['pass']).'");'."\n".'define("LANG","'.$p2['lang'].'");'."\n".'define("THEME_FOLDER","'.$p2['siteTheme'][0].'");'."\n".'define("MULTI",false);'."\n".'define("BRAND",true);'."\n".'$plugins = array('.(isset($p2['sitePlugins'])?'"'.implode('","',$p2['sitePlugins']).'"':'').');'."\n".'require "a55ets/tcClas5.php"; '."\n".'?>'); echo ($fpcf?'<span class="suc">'._e('SUCCESS').'</span>':'<span class="fai">'._e('FAILED').'</span>'); if (!$fpcf) $oktostep4=false; flush();?></p>
         <?php
 			if ($oktostep4) echo '<form action="" method="post"><input type="submit" name="tostep4" value="'._e("Next step").'" id="fsb"/></form><br><br>';
 			else echo '<p class="r">&nbsp;<span class="fai">'._e('Error(s) detected, the TinyCMS installer cannot continue').'</span></p>';
@@ -228,6 +233,6 @@ if ($step==2) {
     <?php } ?>    
     </div>
 </div>
-<div id="copy">TinyCMS &copy; <?php echo date("Y"); ?><br><a href="http://www.tinycms.eu" target="_blank">www.TinyCMS.eu</a> - <a href="http://www.tinycms.ro" target="_blank">www.TinyCMS.ro</a></div>
+<div id="copy">TinyCMS &copy; <?php echo @date("Y"); ?><br><a href="http://www.tinycms.eu" target="_blank">www.TinyCMS.eu</a> - <a href="http://www.tinycms.ro" target="_blank">www.TinyCMS.ro</a></div>
 </body>
 </html>
